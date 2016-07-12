@@ -1,0 +1,19 @@
+{
+  "name": "omegle-node",
+  "version": "1.0.0",
+  "description": "Node.js API for Omegle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "omegle",
+    "api",
+    "node"
+  ],
+  "author": "dumptyd",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.73.0"
+  }
+}
