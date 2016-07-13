@@ -1,6 +1,6 @@
 var request = require('request');
 var events = require('events');
-var eventEmitter = new events.EventEmitter();
+var ee = new events.eventEmitter();
 var url = 'http://front1.omegle.com/start';
 var useragent = 'Mozilla/4.0 (compatible; MSIE 6.1; Windows XP)';
 
@@ -10,9 +10,10 @@ var Omegle = {
 	this.id='';
 	
 	this.randID = function(){
-		var charset=[];
+		var charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 		var str='';
 		for(i=0; i<8; ++i)
+			str+=charset.charAt();
 	}
 	
 	this.getResponse = function(path,data){
@@ -48,7 +49,7 @@ var Omegle = {
 		if(!body)
 		{
 			this.id=JSON.parse(body).clientID;
-			eventEmitter.emit('connecting');
+			ee.emit('connecting');
 		}
 	}
 
@@ -59,7 +60,7 @@ var Omegle = {
 
 var om = new Omegle();
 om.connect();
-eventEmitter.on('connecting',function(){
+ee.on('connecting',function(){
 	console.log('Connected as: ' + om.id);
 });
 
