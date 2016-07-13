@@ -9,7 +9,13 @@ var Omegle = {
 	
 	this.id='';
 	
-	this.getResponse= function(path,data){
+	this.randID = function(){
+		var charset=[];
+		var str='';
+		for(i=0; i<8; ++i)
+	}
+	
+	this.getResponse = function(path,data){
 		var options = {
 		  url: url+path,
 		  headers: {
