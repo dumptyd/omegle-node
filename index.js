@@ -1,66 +1,82 @@
 var request = require('request');
 var events = require('events');
-var ee = new events.eventEmitter();
-var url = 'http://front1.omegle.com/start';
-var useragent = 'Mozilla/4.0 (compatible; MSIE 6.1; Windows XP)';
+var ee = new events.EventEmitter();
 
-
-var Omegle = {
-	
-	this.id='';
-	
-	this.randID = function(){
-		var charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
-		var str='';
-		for(i=0; i<8; ++i)
-			str+=charset.charAt();
-	}
-	
-	this.getResponse = function(path,data){
-		var options = {
-		  url: url+path,
-		  headers: {
-			'User-Agent': useragent,
-			'Connection': 'Keep-Alive'
-		  },
-		  method: 'POST',
-		  qs: data
-		};
+var Omegle = function() 
+	{
+		var useragent = 'Mozilla/4.0 (compatible; MSIE 6.1; Windows XP)';
+		var url = 'http://front1.omegle.com';
+		var _this = this;
+		this.id='';
+		this.randID = function(){
+			var charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+			var str='';
+			for(i=0; i<8; ++i)
+				str+=charset.charAt(Math.floor((Math.random() * (charset.length+1))));
+		}
 		
-		request(options, function (error, response, body) {
-		  if (!error && response.statusCode == 200) {
-			return body;
-		  }
-		  else
-		  {
-			console.log('Error: '+ path);
-			return false;
-		  }
-		})
-	}
-
-	this.connect=function(){
-		var data = {
-			rcs: 1,
-			firstevents: 1,
-			lang: 'en'
+		getResponse = function(path, data, callback, method='POST'){
+			var options = {
+			  url: url+path,
+			  headers: {
+				'User-Agent': useragent,
+				'Connection': 'Keep-Alive'
+			  },
+			  method: method,
+			  qs: data
 			};
-		var body = getResponse('/start',data);
-		if(!body)
+			
+			request(options, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+				return callback(body,null);
+			  }
+			  else
+			  {
+				console.log('Error: '+ path +'\n'+error);
+				return callback(false,error);
+			  }
+			})
+		}
+
+		this.connect=function(){
+			this.updateServer();
+			var data = {
+				rcs: 1,
+				firstevents: 1,
+				lang: 'en',
+				group: 'unmon'
+				};
+			getResponse('/start',data, function(body,error){
+				if(body)
+				{
+					this.id=JSON.parse(body).clientID;
+					ee.emit('connected', this.id);
+				}
+				else
+					ee.emit('error', error);
+			});
+			
+		}
+
+		this.getEvents=function(){
+			//var data={id:}
+		}
+		
+		this.updateServer=function()
 		{
-			this.id=JSON.parse(body).clientID;
-			ee.emit('connecting');
+			getResponse('/status',{nocache:Math.random(),randid:_this.randID()},function(statusBody,error){
+				if(statusBody)
+				{
+					url=JSON.parse(statusBody).servers[0];
+				}
+				else
+					ee.emit('error', 'Couldn\'t get server list. Error: '+ error);
+			},'GET');
 		}
 	}
 
-	this.getEvents=function(){
-		var data={id:}
-	}
-}
-
 var om = new Omegle();
 om.connect();
-ee.on('connecting',function(){
-	console.log('Connected as: ' + om.id);
+ee.on('connected',function(id){
+	console.log('Connected as: ' + id);
 });
-
