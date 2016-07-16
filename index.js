@@ -50,7 +50,7 @@ var Omegle = function()
 				if(body)
 				{
 					this.id=JSON.parse(body).clientID;
-					ee.emit('connected', this.id);
+					ee.emit('gotID', body);
 				}
 				else
 					ee.emit('error', error);
@@ -77,6 +77,6 @@ var Omegle = function()
 
 var om = new Omegle();
 om.connect();
-ee.on('connected',function(id){
-	console.log('Connected as: ' + id);
+ee.on('gotID',function(id){
+	console.log('Connected to server as: ' + id);
 });
