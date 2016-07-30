@@ -11,6 +11,7 @@ om.on('serverUpdated',function(server){
 
 om.on('connected',function(){
 	console.log('Connected');
+	om.startTyping();
 	om.send('20 f');
 });
 
