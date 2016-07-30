@@ -11,7 +11,7 @@ om.on('serverUpdated',function(server){
 
 om.on('connected',function(){
 	console.log('Connected');
-	om.send('20 f')
+	om.send('20 f');
 });
 
 om.on('omerror',function(err){
