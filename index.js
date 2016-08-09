@@ -1,8 +1,20 @@
 var Omegle = require('./lib/omegle.js');
 var om = new Omegle();
+
 om.connect();
+
+om.on('omerror',function(err){
+	console.log('Client: ' + err);
+});
+
 om.on('gotID',function(id){
 	console.log('Connected to server as: ' + id);
+	//om.slfcl();
+});
+
+om.on('waiting', function(){
+	console.log('Waiting for a stranger.');
+	om.slfcl();
 });
 
 om.on('serverUpdated',function(server){
@@ -16,9 +28,6 @@ om.on('connected',function(){
 	om.send('20 f');
 });
 
-om.on('omerror',function(err){
-	console.log('Omegle error: ' + err);
-});
 
 om.on('gotMessage',function(msg){
 	console.log('Stranger: ' + msg);
@@ -35,4 +44,3 @@ om.on('stoppedTyping',function(){
 om.on('strangerDisconnected',function(){
 	console.log('Stranger disconnected.');
 });
-
