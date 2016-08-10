@@ -143,7 +143,7 @@ var Omegle = function()
 				else if(currentEvent=='error')
 				{
 					reset();
-					_this.emit('omerror', 'Omegle: '+ ev[i][1]);
+					_this.emit('omegleError', + ev[i][1]);
 				}
 				else if(currentEvent=='connectionDied')
 				{
