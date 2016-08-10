@@ -6,11 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "omegle",
-    "api",
-    "node"
-  ],
+  "keywords": ["omegle","api","node","chat","strangers"],
+  "main" : "index.js",
   "author": "dumptyd",
   "license": "MIT",
   "dependencies": {
