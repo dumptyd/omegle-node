@@ -9,6 +9,7 @@ omegle-node is an unofficial API for Omegle which can be used to connect and int
     npm install omegle-node
 
 <hr>
+
 ##Usage
 
 Check out `omegle.js` in `examples/` folder to get a hang of how this works.
@@ -77,6 +78,7 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
 
 - **`language`**: Set or get the language you speak. Default is `en`.
 <hr>
+
 ###Example
 
 ```javascript
