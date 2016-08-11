@@ -16,8 +16,8 @@ var Omegle = function()
 		var id='';
 		var typing = false;
 		var challenge = ''; // to store recaptcha challenge.
-		
-		//to check if client is connected to the server
+		var challengeLink = '';
+		//to check if the client is connected to the server
 		this.connected = function(){
 			return isConnected;
 		}
@@ -137,6 +137,8 @@ var Omegle = function()
 					_this.emit('waiting');
 				else if(currentEvent=='connected')
 				{
+					challengeLink = '';
+					challenge = '';
 					isConnected = true;
 					_this.emit('connected');
 				}
@@ -175,19 +177,31 @@ var Omegle = function()
 					_this.emit('strangerDisconnected');
 				}
 				else if(currentEvent=='recaptchaRequired')
-				{
-					challenge = ev[i][1];
-					_this.emit('recaptchaRequired','https://www.google.com/recaptcha/api/image?c='+ev[i][1]);
-				}
+					evalCaptcha(ev[i][1]);
 				else if(currentEvent=='recaptchaRejected')
-				{
-					challenge = ev[i][1];
-					_this.emit('recaptchaRejected','https://www.google.com/recaptcha/api/image?c='+ev[i][1]);
-				}
+					evalCaptcha(ev[i][1]);
 				else if(currentEvent=='commonLikes')
 					_this.emit('commonLikes',ev[i][1]);
 			}
 		
+		}
+		
+		var evalCaptcha = function(pchallengeLink){
+			challengeLink = pchallengeLink;
+			var url = 'http://www.google.com/recaptcha/api/challenge?k='+pchallengeLink;
+			request.get(url, function (error, response, body) {
+			  if (!error && response.statusCode == 200) {
+				var close = body.indexOf('}')
+				eval(body.substring(0,close+1));  //I give up. JSON.parse, you have failed me, or maybe I'm just dumb.
+				challenge = RecaptchaState.challenge;
+				_this.emit('recaptchaRequired','http://www.google.com/recaptcha/api/image?c='+challenge);
+			  }
+			});
+		}
+		
+		this.reloadReCAPTCHA = function(){
+			if(challengeLink)
+				evalCaptcha(challengeLink)
 		}
 		
 		this.updateServer=function(){
@@ -261,7 +275,7 @@ var Omegle = function()
 		}
 		
 		this.stopLookingForCommonLikes = function(callback){
-			if(lastEvent=='waiting')
+			if(lastEvent=='waiting'&&!challengeLink)
 			{
 				var data={id:id};
 				getResponse('/stoplookingforcommonlikes',data, function(body,error){
@@ -303,6 +317,7 @@ var Omegle = function()
 		}
 		
 		// I haven't tested this, because I'd first have to get banned to be able to test this, but it should work.
+		// Nevermind, I got banned today, turns out I implemented recaptcha handling totally wrong. Now it's working.
 		this.solveReCAPTCHA = function(answer){
 			if(gotID&&challenge)
 			{

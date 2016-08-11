@@ -70,6 +70,10 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
 - **`solveReCAPTCHA(answer)`**: Send the answer to the ReCAPTCHA challenge to Omegle. <br>`Argument`: `answer` - Answer to the challenge.
 
 - **`connected()`**: Returns a boolean value specifying whether you're currently connected to a stranger.
+
+- **`reloadReCAPTCHA()`**: It seems like Omegle has gotten rid of `recaptchaRejected`, so the only way to know whether your ReCAPTCHA answer has been rejected is if you don't get connected to a stranger within a few seconds of submitting your answer. Use this function to reload ReCAPTCHA.
+  
+  
 <hr>
 
 ###List of variables
