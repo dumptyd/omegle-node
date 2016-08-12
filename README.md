@@ -86,7 +86,7 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
 ###Example
 
 ```javascript
-var Omegle = require('node-omegle');
+var Omegle = require('omegle-node');
 var om = new Omegle(); //create an instance of `Omegle`
 
 //This will print any errors that might get thrown by functions
