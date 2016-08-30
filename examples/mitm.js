@@ -1,5 +1,6 @@
- var Omegle = require('../index');
-var om1 = new Omegle(), om2 = new Omegle;
+//jshint node:true
+var Omegle = require('../index');
+var om1 = new Omegle(), om2 = new Omegle();
 
 //-----------------------Stranger-1--------------------------//
 

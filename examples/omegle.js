@@ -1,3 +1,4 @@
+//jshint node:true
 var Omegle = require('../index');
 var om = new Omegle();
 
@@ -64,7 +65,7 @@ om.on('disconnected',function(){
 	console.log('You have disconnected.');
 });
 
-var topics = ['bot','nodejs']
+var topics = ['bot','nodejs'];
 om.connect(topics);
 
 //call om.disconnect() before you call connect() again.

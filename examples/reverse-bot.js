@@ -1,3 +1,4 @@
+//jshint node:true
 var Omegle = require('../index');
 var om = new Omegle();
 om.on('omerror',function(err){

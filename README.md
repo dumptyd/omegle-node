@@ -1,5 +1,9 @@
 # omegle-node - Unofficial node.js API for Omegle
 
+[![NPM](https://nodei.co/npm/omegle-node.png)](https://npmjs.org/package/omegle-node)
+
+[![npm version](https://badge.fury.io/js/omegle-node.png)](https://badge.fury.io/js/omegle-node)
+
 omegle-node is an unofficial API for Omegle which can be used to connect and interact with people on omegle without actually going to the website.
 
 <hr>
@@ -34,6 +38,8 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
 - **`gotMessage`**: emitted when you receive a message. <br>`Argument`: `msg` - Received message.
 
 - **`commonLikes`**: emitted when you're connected to a stranger with matching interests. <br>`Argument`: `likes` - Array of matching interests.
+
+- **`disconnected`**: emitted when you disconnect from the chat. This will be emitted when you call `disconnect()`. If you want to reconnect, call `connect()` again only `on` `disconnected` and `strangerDisconnected` event.
 
 - **`strangerDisconnected`**: emitted when the stranger disconnects.
  
