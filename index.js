@@ -9,6 +9,7 @@ var Omegle = function () {
 	this.useragent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0';
 	this.language = 'en';
 	var url = 'http://front1.omegle.com';
+	var working_servers=[];
 	var gotID = false;
 	var isConnected = false;
 	var _this = this;
@@ -51,6 +52,9 @@ var Omegle = function () {
 		}
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
+				if(!working_servers.indexOf(url)>0){
+					working_servers.push(url);
+				}
 				return callback(body, null);
 			}
 			else {
@@ -165,7 +169,11 @@ var Omegle = function () {
 	this.reloadReCAPTCHA = function () {
 		if (challengeLink) evalCaptcha(challengeLink);
 	};
-	this.updateServer = function () {
+	this.updateServer = function (server) {
+		if(server){	//in case only user wants to do it manually
+			url='http://'+server;
+			return false;
+		}
 		getResponse('/status', {
 			nocache: Math.random(),
 			randid: randID()
@@ -176,6 +184,10 @@ var Omegle = function () {
 			}
 			else {
 				_this.emit('omerror', 'updateServer(): ' + error);
+				//this url didn't worked, if updateServer() is called again, its going to throw this error again, so
+				if(working_servers.length>0){
+					url=working_servers[0];
+				}
 			}
 		}, 'GET');
 	};
