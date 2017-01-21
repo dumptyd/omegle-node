@@ -170,7 +170,7 @@ var Omegle = function () {
 		if (challengeLink) evalCaptcha(challengeLink);
 	};
 	this.updateServer = function (server) {
-		if(server){	//in case only user wants to do it manually
+		if(server){	//in case user wants to do it manually
 			url='http://'+server;
 			return false;
 		}
