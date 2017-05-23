@@ -52,7 +52,7 @@ var Omegle = function () {
 		}
 		request(options, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				if(workingServers.indexOf(url)<0){
+				if(workingServers.indexOf(url) < 0){
 					workingServers.push(url);
 				}
 				return callback(body, null);
@@ -174,8 +174,8 @@ var Omegle = function () {
 		if (challengeLink) evalCaptcha(challengeLink);
 	};
 	this.updateServer = function (server) {
-		if(server){	//in case user wants to do it manually
-			url='http://'+server;
+		if (server) {
+			url='http://' + server;
 			return false;
 		}
 		getResponse('/status', {
@@ -183,14 +183,22 @@ var Omegle = function () {
 			randid: randID()
 		}, function (statusBody, error) {
 			if (statusBody) {
-				url = 'http://' + JSON.parse(statusBody).servers[0];
+				var response;
+				try {
+					response = JSON.parse(statusBody);
+				}
+				catch(err) {
+					_this.emit('omerror', 'updateServer(): ' + err);
+					return;
+				}
+				url = 'http://' + response.servers[0] + '.omegle.com';
 				_this.emit('serverUpdated', url);
 			}
 			else {
 				_this.emit('omerror', 'updateServer(): ' + error);
-				//this url didn't worked, if updateServer() is called again, its going to throw this error again, so
-				if(workingServers.length>0){
-					url=workingServers[0];
+				//this url didn't work, if updateServer() is called again, it's going to throw this error again
+				if(workingServers.length > 0){
+					url = workingServers[workingServers.length - 1];
 				}
 			}
 		}, 'GET');
