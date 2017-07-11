@@ -8,22 +8,22 @@ omegle-node is an unofficial API for Omegle which can be used to connect and int
 
 <hr>
 
-##Installation
+## Installation
 
     npm install omegle-node
 
 <hr>
 
-##Usage
+## Usage
 
-Check out `omegle.js` in `examples/` folder to get a hang of how this works.
+Check out `examples/omegle.js` to get a hang of how this works.
 
     cd examples
     
     node omegle
     
     
-###List of events
+### Events
 
  - **`gotID`**: emitted when you're connected to Omegle's server (note that you're not connected to a stranger yet). <br> `Argument`: `id` - The ID assigned to you by Omegle.
 
@@ -57,7 +57,7 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
 
 <hr>
 
-###List of functions
+### Functions
 
 - **`connect([topics])`**: Connect to a random stranger. <br>`Argument`: `topics` - Optional. An array of *interests*.
 
@@ -82,14 +82,14 @@ Check out `omegle.js` in `examples/` folder to get a hang of how this works.
   
 <hr>
 
-###List of variables
+### Variables
 
 - **`useragent`**: Set or get the useragent.
 
 - **`language`**: Set or get the language you speak. Default is `en`.
 <hr>
 
-###Example
+### Example
 
 ```javascript
 var Omegle = require('omegle-node');
@@ -133,7 +133,7 @@ om.connect();
 <hr>
 <br>
 
-##Example scripts
+## Example scripts
 
 The `examples/` folder contains three scripts:
 
@@ -143,4 +143,4 @@ The `examples/` folder contains three scripts:
 
 <hr><br>
 
-##Please do not use this to create spam bots, there are already enough of those on Omegle.
+## Please do not use this to create spam bots, there are already enough of those on Omegle.
