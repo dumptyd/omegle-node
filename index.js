@@ -8,7 +8,7 @@ var Omegle = function () {
 	ee.call(this);
 	this.useragent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0';
 	this.language = 'en';
-	var url = 'http://front1.omegle.com';
+	var url = 'front1.omegle.com';
 	var workingServers=[];
 	var gotID = false;
 	var isConnected = false;
@@ -31,7 +31,7 @@ var Omegle = function () {
 	var getResponse = function (path, data, callback, method = 'POST') {
 		var qsArr = ['/status', '/start']; //these paths use qs, others take urlencoded data.
 		var options = {
-			url: url + path,
+			url: 'https://' + url + path,
 			headers: {
 				'User-Agent': this.useragent,
 				'Connection': 'keep-alive',
@@ -175,7 +175,7 @@ var Omegle = function () {
 	};
 	this.updateServer = function (server) {
 		if (server) {
-			url='http://' + server;
+			url=server;
 			return false;
 		}
 		getResponse('/status', {
@@ -191,7 +191,7 @@ var Omegle = function () {
 					_this.emit('omerror', 'updateServer(): ' + err);
 					return;
 				}
-				url = 'http://' + response.servers[0] + '.omegle.com';
+				url = response.servers[0] + '.omegle.com';
 				_this.emit('serverUpdated', url);
 			}
 			else {
