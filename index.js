@@ -66,14 +66,16 @@ var Omegle = function () {
 			}
 		});
 	};
-	this.connect = function (topics = false) {
+	this.connect = function (topics = false, spyMode = false) {
 		this.updateServer();
+		if (spyMode == true) spyMode = 1;
 		var data = {
 			rcs: 1,
 			firstevents: 1,
 			lang: this.language,
 			randid: randID(),
-			spid: ''
+			spid: '',
+			wantsspy: spyMode
 		};
 		if (topics) data['topics'] = formatTopics(topics);
 		getResponse('/start', data, function (body, error) {
@@ -114,7 +116,7 @@ var Omegle = function () {
 	var emitEvents = function (ev) {
 		if (!ev) return;
 		var eventsArr = ['waiting', 'connected', 'error', 'connectionDied', 'antinudeBanned', 'typing',
-							'stoppedTyping', 'gotMessage', 'strangerDisconnected', 'recaptchaRequired',
+							'stoppedTyping', 'gotMessage', 'question', 'strangerDisconnected', 'recaptchaRequired',
 							'recaptchaRejected', 'commonLikes'];
 		for (var i = 0; i < ev.length; ++i) {
 			var currentEvent = ev[i][0];
@@ -147,6 +149,10 @@ var Omegle = function () {
 			else if (currentEvent == 'gotMessage') {
 				if (typing) _this.emit('stoppedTyping');
 				for (var j = 1; j < ev[i].length; ++j) _this.emit('gotMessage', ev[i][j]);
+			}
+			else if (currentEvent == 'question') {
+				if (typing) _this.emit('stoppedTyping');
+				for (var j = 1; j < ev[i].length; ++j) _this.emit('question', ev[i][j]);
 			}
 			else if (currentEvent == 'strangerDisconnected') {
 				reset();

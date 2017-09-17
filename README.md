@@ -37,6 +37,8 @@ Check out `examples/omegle.js` to get a hang of how this works.
 
 - **`gotMessage`**: emitted when you receive a message. <br>`Argument`: `msg` - Received message.
 
+- **`question`**: emitted when you receive a question when spy mode is enabled. <br>`Argument`: `question` - Received question.
+
 - **`commonLikes`**: emitted when you're connected to a stranger with matching interests. <br>`Argument`: `likes` - Array of matching interests.
 
 - **`disconnected`**: emitted when you disconnect from the chat. This will be emitted when you call `disconnect()`. If you want to reconnect, call `connect()` again only `on` `disconnected` and `strangerDisconnected` event.
@@ -59,7 +61,7 @@ Check out `examples/omegle.js` to get a hang of how this works.
 
 ### Functions
 
-- **`connect([topics])`**: Connect to a random stranger. <br>`Argument`: `topics` - Optional. An array of *interests*.
+- **`connect([topics], spyMode)`**: Connect to a random stranger. <br>`Argument`: `topics` - Optional. An array of *interests*. <br>`Argument`: `spyMode` - Optional. Default is `false`. Set to true in order to connect to spy mode.
 
 - **`updateServer()`**: Update the server to which all the requests are made. This is called every time `connect()` is called.
 
