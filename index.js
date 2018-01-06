@@ -215,6 +215,7 @@ var Omegle = function () {
 				msg: msg,
 				id: id
 			};
+			console.log(`Me: ${msg}`);
 			getResponse('/send', data, function (body, error) {
 				if (body) {
 					if (body != 'win') _this.emit('omerror', 'send(): ' + body);
