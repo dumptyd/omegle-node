@@ -75,7 +75,9 @@ var Omegle = function () {
 			lang: this.language,
 			randid: randID(),
 			spid: '',
-			wantsspy: spyMode
+			wantsspy: spyMode,
+			//required parameter to received the recaptchaRequired event
+			caps: 'recaptcha2' 
 		};
 		if (topics) data['topics'] = formatTopics(topics);
 		getResponse('/start', data, function (body, error) {
@@ -164,17 +166,8 @@ var Omegle = function () {
 		}
 	};
 	var evalCaptcha = function (pchallengeLink) {
-		challengeLink = pchallengeLink;
-		var url = 'http://www.google.com/recaptcha/api/challenge?k=' + pchallengeLink;
-		request.get(url, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var close = body.indexOf('}');
-				//I give up. JSON.parse, you have failed me, or maybe I'm just dumb.
-				eval(body.substring(0, close + 1)); // jshint ignore:line
-				challenge = RecaptchaState.challenge; // jshint ignore:line
-				_this.emit('recaptchaRequired', 'http://www.google.com/recaptcha/api/image?c=' + challenge);
-			}
-		});
+		//recaptcha2 requires client side includes to work, provide the end user with the challenge so they may embed the google code passing the site_key as this challenge
+		this.emit('recaptchaRequired', pchallengeLink);
 	};
 	this.reloadReCAPTCHA = function () {
 		if (challengeLink) evalCaptcha(challengeLink);
@@ -289,14 +282,14 @@ var Omegle = function () {
 	// I haven't tested this, because I'd first have to get banned to be able to test this, but it should work.
 	// Nevermind, I got banned today, turns out I implemented recaptcha handling totally wrong. Now it's working.
 	this.solveReCAPTCHA = function (answer) {
-		if (gotID && challenge) {
+		if (gotID) {
 			var data = {
 				id: id,
-				challenge: challenge,
 				response: answer
 			};
 			getResponse('/recaptcha', data, function (body, error) {
 				if (error) _this.emit('omerror', 'solveReCAPTCHA(): ' + error);
+				//body returns win or false depending on the result
 			});
 		}
 		else _this.emit('omerror', 'solveReCAPTCHA(): Not connected to the server or there\'s no ReCAPTCHA.');
