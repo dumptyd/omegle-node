@@ -3,7 +3,7 @@
 var request = require('request');
 var ee = require('events').EventEmitter;
 var util = require('util');
-var qs = require('querystring');
+var qs = require('query-string');
 var Omegle = function () {
 	ee.call(this);
 	this.useragent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0';
