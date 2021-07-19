@@ -77,7 +77,7 @@ var Omegle = function () {
 			spid: '',
 			wantsspy: spyMode,
 			//required parameter to received the recaptchaRequired event
-			caps: 'recaptcha2' 
+			caps: 'recaptcha2,t' 
 		};
 		if (topics) data['topics'] = formatTopics(topics);
 		getResponse('/start', data, function (body, error) {
